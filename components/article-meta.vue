@@ -54,15 +54,27 @@ export default {
   },
   methods: {
     async followUser() {
+      if (!this.user) {
+        this.$router.push('/login')
+        return
+      }
       const follow = this.article.author.following ? delFollow : addFollow
       await follow(this.article.author.username)
       this.article.author.following = !this.article.author.following
     },
     async removeArticle() {
+      if (!this.user) {
+        this.$router.push('/login')
+        return
+      }
       await delArticle(this.article.slug)
       this.$router.push({ name: 'home', query: { tab: 'your_feed' } })
     },
     async favoriteClick(data) {
+      if (!this.user) {
+        this.$router.push('/login')
+        return
+      }
       data.favoriteDisabled = true
       if (data.favorited) {   // 取消点赞
         await delFavorite(data.slug)

@@ -57,10 +57,18 @@ export default {
   },
   methods: {
     async delComment(id, index) {
+      if (!this.user) {
+        this.$router.push('/login')
+        return
+      }
       await delArticleComment(this.article.slug, id)
       this.comments.splice(index, 1)
     },
     async addComment() {
+      if (!this.user) {
+        this.$router.push('/login')
+        return
+      }
       const obj = { comment: { body: this.content } }
       const { data } = await addArticleComment(this.article.slug, obj)
       this.comments.unshift(data.comment)
